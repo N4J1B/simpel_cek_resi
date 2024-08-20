@@ -18,8 +18,8 @@ class CardInfoCourier extends StatelessWidget {
           children: [
             Image.asset(
               courier.imageAsset,
-              width: 100,
-              height: 100,
+              width: 64,
+              height: 64,
             ),
             const SizedBox(width: 8),
             Text(

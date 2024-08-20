@@ -30,11 +30,11 @@ class _DetailScreenState extends State<DetailScreen> {
     });
   }
 
-  void _cekResi(DetailViewModel viewModel) {
-    if (_formKey.currentState!.validate()) {
-      viewModel.getResi(widget.courier.code, resiController.text);
-    }
-  }
+  // void _cekResi(DetailViewModel viewModel) {
+  //   if (_formKey.currentState!.validate()) {
+  //     viewModel.getResi(widget.courier.code, resiController.text);
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -73,10 +73,19 @@ class _DetailScreenState extends State<DetailScreen> {
                         floatingLabelBehavior: FloatingLabelBehavior.always,
                       ),
                     ),
-                    const SizedBox(height: 8),
-                    ElevatedButton(
-                      onPressed: () => _cekResi(viewModel),
-                      child: const Text('Cari'),
+                    const SizedBox(height: 32),
+                    SizedBox(
+                      width: 200,
+                      height: 50,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            viewModel.getResi(
+                                widget.courier.code, resiController.text);
+                          }
+                        },
+                        child: const Text('Cari'),
+                      ),
                     ),
                   ],
                 )),

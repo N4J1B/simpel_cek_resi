@@ -1,9 +1,33 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import 'data/repository/resi_repository.dart';
+import 'data/service/api_service.dart';
+import 'feature/detail/viewmodel/detail_view_model.dart';
 import 'feature/home/home_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  // Create Dio instance for HTTP requests
+  final Dio dio = Dio();
+
+  // Create ApiService instance with the Dio instance
+  final ApiService apiService = ApiService(dio: dio);
+
+  // Create ResiRepository instance with the ApiService instance
+  final ResiRepository resiRepository = ResiRepository(apiService: apiService);
+
+  runApp(
+    MultiProvider(
+      providers: [
+        // Provide the ViewModel with repository dependency to manage data and API calls
+        ChangeNotifierProvider<DetailViewModel>(
+          create: (context) => DetailViewModel(resiRepository: resiRepository),
+        ),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
