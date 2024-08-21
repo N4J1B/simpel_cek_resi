@@ -54,7 +54,7 @@ class Detail {
 }
 
 class History {
-  DateTime date;
+  String date;
   String desc;
   String location;
 
@@ -65,7 +65,7 @@ class History {
   });
 
   History.fromJson(Map<String, dynamic> json)
-      : date = DateTime.parse(json['date']),
+      : date = json['date'],
         desc = json['desc'],
         location = json['location'];
 }
@@ -75,7 +75,7 @@ class Summary {
   String courier;
   String service;
   String status;
-  DateTime date;
+  String date;
   String desc;
   String amount;
   String weight;
@@ -96,7 +96,7 @@ class Summary {
         courier = json['courier'],
         service = json['service'],
         status = json['status'],
-        date = DateTime.parse(json['date']),
+        date = json['date'],
         desc = json['desc'],
         amount = json['amount'],
         weight = json['weight'];

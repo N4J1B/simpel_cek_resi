@@ -1,3 +1,3 @@
 const url = "https://api.binderbyte.com/v1/track";
 const apiKey =
-    "d51225fe9eec6f662ad54252aeeec23d164cd581c8f88b8abe609a7f745aba1f";
+    "3d7533d726041b3fcf462b731aeb6ab8415cd3f9b0ebde4be7efdd5bbdc59fa0";

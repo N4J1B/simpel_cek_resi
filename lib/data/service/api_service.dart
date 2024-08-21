@@ -14,7 +14,7 @@ class ApiService {
     try {
       final response = await _dio.get(finalUrl);
       if (response.statusCode == 200) {
-        return response.data;
+        return Resi.fromJson(response.data);
       } else {
         throw Exception(
             'Failed to fetch data with status code: ${response.statusCode} and error: ${response.statusMessage}');
