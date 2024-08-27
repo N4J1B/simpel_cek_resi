@@ -1,5 +1,3 @@
-import 'package:dio/dio.dart';
-
 import '../model/custom_exception.dart';
 import '../model/failure_model.dart';
 import '../model/resi.dart';
