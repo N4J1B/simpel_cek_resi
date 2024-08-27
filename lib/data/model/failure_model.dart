@@ -1,6 +1,6 @@
 class FailureModel {
   int? statusCode;
-  String message;
+  String? message;
 
   FailureModel(this.statusCode, this.message);
 }

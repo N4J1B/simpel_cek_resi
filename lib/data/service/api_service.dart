@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 
 import '../../utils/constants.dart';
+import '../model/custom_exception.dart';
+import '../model/failure_model.dart';
 import '../model/resi.dart';
 
 class ApiService {
@@ -16,11 +18,13 @@ class ApiService {
       if (response.statusCode == 200) {
         return Resi.fromJson(response.data);
       } else {
-        throw Exception(
-            'Failed to fetch data with status code: ${response.statusCode} and error: ${response.statusMessage}');
+        throw CustomException(
+            FailureModel(response.statusCode, response.statusMessage));
       }
+    } on DioException catch (e) {
+      throw CustomException(FailureModel(e.response?.statusCode, e.message));
     } catch (e) {
-      throw Exception('An error occurred: $e');
+      throw CustomException(FailureModel(-1, e.toString()));
     }
   }
 }

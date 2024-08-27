@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../data/model/courier.dart';
+import '../../../data/model/ui_state.dart';
 import '../../../widgets/card_info_courier.dart';
 import '../../../widgets/card_package_detail.dart';
 import '../../../widgets/card_package_summary.dart';
+import '../../../widgets/dialog_error.dart';
+import '../../../widgets/dialog_loading.dart';
 import '../../../widgets/list_package_history.dart';
 import '../viewmodel/detail_view_model.dart';
 
@@ -20,6 +23,7 @@ class _DetailScreenState extends State<DetailScreen> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController resiController = TextEditingController();
   String? _errorMsgResi;
+  bool _isDialogLoadingShown = false;
 
   @override
   void initState() {
@@ -35,6 +39,21 @@ class _DetailScreenState extends State<DetailScreen> {
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<DetailViewModel>(context, listen: true);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (viewModel.uiState == UiState.loading && !_isDialogLoadingShown) {
+        _isDialogLoadingShown = true;
+        dialogLoading(context);
+      } else if (viewModel.uiState != UiState.loading &&
+          _isDialogLoadingShown) {
+        _isDialogLoadingShown = false;
+        Navigator.of(context, rootNavigator: true).pop();
+        if (viewModel.uiState == UiState.error) {
+          dialogError(context, viewModel.errorInfo?.statusCode,
+              viewModel.errorInfo?.message, () => viewModel.setUiState(null));
+        }
+      }
+    });
 
     return Scaffold(
       appBar: AppBar(
@@ -86,22 +105,18 @@ class _DetailScreenState extends State<DetailScreen> {
                       ),
                     ],
                   )),
-              viewModel.loading
-                  ? const CircularProgressIndicator()
-                  : (viewModel.isFetched)
-                      ? (viewModel.errorMessage != "")
-                          ? Text(viewModel.errorMessage)
-                          : Column(
-                              children: [
-                                const SizedBox(height: 64),
-                                CardPackageSummary(summary: viewModel.summary!),
-                                const SizedBox(height: 16),
-                                CardPackageDetail(detail: viewModel.detail!),
-                                const SizedBox(height: 16),
-                                ListPackageHistory(history: viewModel.history!)
-                              ],
-                            )
-                      : Container()
+              (viewModel.resi != null)
+                  ? Column(
+                      children: [
+                        const SizedBox(height: 64),
+                        CardPackageSummary(summary: viewModel.summary!),
+                        const SizedBox(height: 16),
+                        CardPackageDetail(detail: viewModel.detail!),
+                        const SizedBox(height: 16),
+                        ListPackageHistory(history: viewModel.history!)
+                      ],
+                    )
+                  : Container(),
             ],
           ),
         ),
