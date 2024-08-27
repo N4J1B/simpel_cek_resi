@@ -12,19 +12,27 @@ class GridCourier extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: GridView.builder(
-        gridDelegate:
-            const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4),
-        itemCount: Courier.list.length,
-        itemBuilder: (context, index) {
-          final courier = Courier.list[index];
-          return CardCourier(
-            courier: courier,
-            onDetail: () {
-              final route = MaterialPageRoute(
-                builder: (context) => DetailScreen(courier: courier),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          // Calculate the number of columns based on the width of the GridView
+          int crossAxisCount = (constraints.maxWidth / 200).floor().clamp(2, 4);
+
+          return GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: crossAxisCount,
+            ),
+            itemCount: Courier.list.length,
+            itemBuilder: (context, index) {
+              final courier = Courier.list[index];
+              return CardCourier(
+                courier: courier,
+                onDetail: () {
+                  final route = MaterialPageRoute(
+                    builder: (context) => DetailScreen(courier: courier),
+                  );
+                  Navigator.push(context, route);
+                },
               );
-              Navigator.push(context, route);
             },
           );
         },

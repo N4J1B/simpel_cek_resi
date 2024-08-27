@@ -15,21 +15,24 @@ class CardCourier extends StatelessWidget {
       child: Card(
         elevation: 5,
         child: Container(
+          height: 160,
           padding: const EdgeInsets.all(8),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
                 courier.imageAsset,
-                width: 100,
-                height: 100,
+                width: 64,
+                height: 64,
               ),
               const SizedBox(height: 8),
-              Text(
-                courier.description,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
+              Center(
+                child: Text(
+                  courier.description,
+                  style: const TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ],
