@@ -59,65 +59,71 @@ class _DetailScreenState extends State<DetailScreen> {
       appBar: AppBar(
         title: const Text('Pelacakan Resi'),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              CardInfoCourier(courier: widget.courier),
-              const SizedBox(height: 16),
-              Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      TextFormField(
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Nomor Resi tidak boleh kosong';
-                          }
-                          return null;
-                        },
-                        onChanged: _validateResi,
-                        controller: resiController,
-                        keyboardType: TextInputType.text,
-                        decoration: InputDecoration(
-                          labelText: 'Nomor Resi',
-                          hintText: 'Masukkan Nomor Resi',
-                          errorText: _errorMsgResi,
-                          floatingLabelBehavior: FloatingLabelBehavior.always,
-                        ),
-                      ),
-                      const SizedBox(height: 32),
-                      SizedBox(
-                        width: 200,
-                        height: 50,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              viewModel.getResi(
-                                  widget.courier.code, resiController.text);
-                            }
-                          },
-                          child: const Text('Cari'),
-                        ),
-                      ),
-                    ],
-                  )),
-              (viewModel.resi != null)
-                  ? Column(
+      body: GestureDetector(
+        onTap: () {
+          FocusManager.instance.primaryFocus?.unfocus();
+        },
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                CardInfoCourier(courier: widget.courier),
+                const SizedBox(height: 16),
+                Form(
+                    key: _formKey,
+                    child: Column(
                       children: [
-                        const SizedBox(height: 64),
-                        CardPackageSummary(summary: viewModel.summary!),
-                        const SizedBox(height: 16),
-                        CardPackageDetail(detail: viewModel.detail!),
-                        const SizedBox(height: 16),
-                        ListPackageHistory(history: viewModel.history!)
+                        TextFormField(
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Nomor Resi tidak boleh kosong';
+                            }
+                            return null;
+                          },
+                          onChanged: _validateResi,
+                          controller: resiController,
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                            labelText: 'Nomor Resi',
+                            hintText: 'Masukkan Nomor Resi',
+                            errorText: _errorMsgResi,
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
+                          ),
+                        ),
+                        const SizedBox(height: 32),
+                        SizedBox(
+                          width: 200,
+                          height: 50,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                viewModel.getResi(
+                                    widget.courier.code, resiController.text);
+                                FocusManager.instance.primaryFocus?.unfocus();
+                              }
+                            },
+                            child: const Text('Cari'),
+                          ),
+                        ),
                       ],
-                    )
-                  : Container(),
-            ],
+                    )),
+                (viewModel.resi != null)
+                    ? Column(
+                        children: [
+                          const SizedBox(height: 64),
+                          CardPackageSummary(summary: viewModel.summary!),
+                          const SizedBox(height: 16),
+                          CardPackageDetail(detail: viewModel.detail!),
+                          const SizedBox(height: 16),
+                          ListPackageHistory(history: viewModel.history!)
+                        ],
+                      )
+                    : Container(),
+              ],
+            ),
           ),
         ),
       ),
