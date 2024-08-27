@@ -1,9 +1,10 @@
 import 'dart:core';
-
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../data/model/courier.dart';
 import '../feature/detail/view/detail_screen.dart';
+import '../feature/detail/viewmodel/detail_view_model.dart';
 import 'card_courier.dart';
 
 class GridCourier extends StatelessWidget {
@@ -16,6 +17,8 @@ class GridCourier extends StatelessWidget {
         builder: (context, constraints) {
           // Calculate the number of columns based on the width of the GridView
           int crossAxisCount = (constraints.maxWidth / 200).floor().clamp(2, 4);
+          final viewModel =
+              Provider.of<DetailViewModel>(context, listen: false);
 
           return GridView.builder(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -30,6 +33,7 @@ class GridCourier extends StatelessWidget {
                   final route = MaterialPageRoute(
                     builder: (context) => DetailScreen(courier: courier),
                   );
+                  viewModel.reset();
                   Navigator.push(context, route);
                 },
               );

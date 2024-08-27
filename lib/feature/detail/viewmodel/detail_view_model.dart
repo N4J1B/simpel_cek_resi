@@ -25,6 +25,16 @@ class DetailViewModel extends ChangeNotifier {
   Detail? get detail => _detail;
   List<History>? get history => _history;
 
+  void reset() {
+    _uiState = null;
+    _errorInfo = null;
+    _resi = null;
+    _summary = null;
+    _detail = null;
+    _history = null;
+    notifyListeners();
+  }
+
   void setUiState(UiState? value) {
     _uiState = value;
     notifyListeners();
