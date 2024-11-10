@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:resikuu/data/model/resi.dart';
 import 'package:resikuu/data/service/api_service.dart';
-import 'package:resikuu/page/widgets/dialog_loading.dart';
 import 'package:resikuu/page/widgets/error_dialog.dart';
 import 'package:resikuu/router/route_name.dart';
 
