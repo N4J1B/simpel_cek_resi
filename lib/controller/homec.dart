@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:resikuu/data/model/resi.dart';
 import 'package:resikuu/data/service/api_service.dart';
+import 'package:resikuu/page/widgets/dialog_loading.dart';
 import 'package:resikuu/page/widgets/error_dialog.dart';
 import 'package:resikuu/router/route_name.dart';
 
@@ -36,8 +37,29 @@ class HomeC extends GetxController {
   }
 
   void cekResi(ApiService serve) async {
+      Get.dialog(
+        AlertDialog(
+        title: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text('Loading'),
+          ],
+        ),
+        content: SingleChildScrollView(
+            child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            CircularProgressIndicator(),
+          ],
+        )),
+      ),
+        useSafeArea: true,
+      );
     try{
       response = await serve.getResi(kurir.value, resiC.text);
+      Get.back();
       Get.offNamed(RouteName.detailcek, arguments: response);
     }on CustomException catch(e){
       Get.dialog(ErrorDialog(e: e));
