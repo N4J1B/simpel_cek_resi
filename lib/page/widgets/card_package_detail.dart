@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../data/model/resi.dart';
+import '../../data/model/resi.dart';
 
-class CardPackageSummary extends StatelessWidget {
-  final Summary summary;
+class CardPackageDetail extends StatelessWidget {
+  final Detail detail;
 
-  const CardPackageSummary({super.key, required this.summary});
+  const CardPackageDetail({super.key, required this.detail});
 
   @override
   Widget build(BuildContext context) {
@@ -18,65 +18,42 @@ class CardPackageSummary extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              "Nomor Resi",
+              "Asal",
               style: TextStyle(fontSize: 14, fontWeight: FontWeight.w200),
             ),
-            Text(summary.awb,
+            Text(detail.origin,
                 style:
                     const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             const SizedBox(
               height: 8,
             ),
             const Text(
-              "Status",
+              "Tujuan",
               style: TextStyle(fontSize: 14, fontWeight: FontWeight.w200),
             ),
-            Text(summary.status,
+            Text(detail.destination,
                 style:
                     const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             const SizedBox(
               height: 8,
             ),
             const Text(
-              "Tanggal",
+              "Pengirim",
               style: TextStyle(fontSize: 14, fontWeight: FontWeight.w200),
             ),
-            Text(summary.date,
+            Text(detail.shipper,
                 style:
                     const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             const SizedBox(
               height: 8,
             ),
             const Text(
-              "Deskripsi",
+              "Penerima",
               style: TextStyle(fontSize: 14, fontWeight: FontWeight.w200),
             ),
-            Text(summary.desc,
+            Text(detail.receiver,
                 style:
                     const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-            const SizedBox(
-              height: 8,
-            ),
-            const Text(
-              "Berat",
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w200),
-            ),
-            Text(summary.weight,
-                style:
-                    const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-            const SizedBox(
-              height: 8,
-            ),
-            const Text(
-              "Biaya",
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w200),
-            ),
-            Text(summary.amount,
-                style:
-                    const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-            const SizedBox(
-              height: 8,
-            ),
           ],
         ),
       ),

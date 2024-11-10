@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../data/model/courier.dart';
+import '../../data/model/courier.dart';
 
 class CardInfoCourier extends StatelessWidget {
   final Courier courier;

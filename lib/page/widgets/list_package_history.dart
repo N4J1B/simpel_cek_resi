@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
-import '../data/model/resi.dart';
+import '../../data/model/resi.dart';
 
 class ListPackageHistory extends StatelessWidget {
   final List<History> history;
