@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 
+import '../../utils/apiKey.dart';
 import '../../utils/constants.dart';
 import '../model/custom_exception.dart';
 import '../model/failure_model.dart';
@@ -9,8 +10,7 @@ import '../model/ongkir2.dart';
 import '../model/resi.dart';
 import '../model/city.dart';
 
-class ApiService extends GetxService{
-
+class ApiService extends GetxService {
   final Dio _dio;
   ApiService({required Dio dio}) : _dio = dio;
 
@@ -22,10 +22,15 @@ class ApiService extends GetxService{
       if (response.statusCode == 200) {
         return Resi.fromJson(response.data);
       } else {
-        throw CustomException(FailureModel(response.statusCode, response.data.message));
+        throw CustomException(
+            FailureModel(response.statusCode, response.data.message));
       }
     } on DioException catch (e) {
-      throw CustomException(FailureModel(e.response?.statusCode, e.response?.data["message"] ?? e.response?.statusMessage ?? e.message));
+      throw CustomException(FailureModel(
+          e.response?.statusCode,
+          e.response?.data["message"] ??
+              e.response?.statusMessage ??
+              e.message));
     } catch (e) {
       throw CustomException(FailureModel(-1, e.toString()));
     }
@@ -45,26 +50,32 @@ class ApiService extends GetxService{
             FailureModel(response.statusCode, response.data.message));
       }
     } on DioException catch (e) {
-      throw CustomException(FailureModel(e.response?.statusCode, e.response?.data["message"] ?? e.response?.statusMessage ?? e.message));
+      throw CustomException(FailureModel(
+          e.response?.statusCode,
+          e.response?.data["message"] ??
+              e.response?.statusMessage ??
+              e.message));
     } catch (e) {
       throw CustomException(FailureModel(-1, e.toString()));
     }
   }
 
-  Future<Ongkir2> getOngkir2(String origin, String destination, int weight) async {
+  Future<Ongkir2> getOngkir2(
+      String origin, String destination, int weight) async {
     const finalUrl = "$url2/v1/rates/couriers";
     try {
       final response = await _dio.post(finalUrl,
           data: {
             "origin_area_id": origin,
             "destination_area_id": destination,
-            "couriers": "paxel,jne,sicepat",
+            "couriers":
+                "gojek,grab,deliveree,jne,tiki,ninja,lion,sicepat,jnt,idexpress,rpx,wahana,pos,anteraja,sap,paxel",
             "items": [
               {
                 "name": "Request",
-                "value": 100000,
+                "value": 10000,
                 "weight": weight,
-                "quantity": 1
+                "quantity": 1,
               }
             ]
           },
@@ -75,10 +86,14 @@ class ApiService extends GetxService{
         return Ongkir2.fromJson(response.data);
       } else {
         throw CustomException(
-            FailureModel(response.statusCode, response.data.message));
+            FailureModel(response.statusCode, response.data.error));
       }
     } on DioException catch (e) {
-      throw CustomException(FailureModel(e.response?.statusCode, e.response?.data["message"] ?? e.response?.statusMessage ?? e.message));
+      throw CustomException(FailureModel(
+          e.response?.statusCode,
+          e.response?.data["message"] ??
+              e.response?.statusMessage ??
+              e.message));
     } catch (e) {
       throw CustomException(FailureModel(-1, e.toString()));
     }
@@ -86,7 +101,7 @@ class ApiService extends GetxService{
 
   Future<City> getCity(String input) async {
     final finalUrl =
-        '$url2/v1/maps/areas?countries=ID&input=$input&type=double';
+        '$url2/v1/maps/areas?countries=ID&input=$input&type=single';
 
     try {
       final response = await _dio.get(finalUrl,
@@ -100,11 +115,14 @@ class ApiService extends GetxService{
             FailureModel(response.statusCode, response.data.message));
       }
     } on DioException catch (e) {
-      throw CustomException(FailureModel(e.response?.statusCode, e.response?.data["message"] ?? e.response?.statusMessage ?? e.message));
+      throw CustomException(
+        FailureModel(
+          e.response?.statusCode,
+          e.response?.data["message"] ?? e.response?.statusMessage ?? e.message,
+        ),
+      );
     } catch (e) {
       throw CustomException(FailureModel(-1, e.toString()));
     }
   }
-
-  
 }

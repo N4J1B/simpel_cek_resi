@@ -1,8 +1,6 @@
-import 'package:easy_stepper/easy_stepper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:resikuu/controller/detailresic.dart';
-import 'package:resikuu/data/service/local_service.dart';
 import 'package:resikuu/router/route_name.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
@@ -12,7 +10,6 @@ class ResiDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final rd = Get.find<DetailresiC>();
-    final localserve = Get.find<LocalService>();
 
     return SafeArea(
       child: Scaffold(
@@ -37,8 +34,9 @@ class ResiDetail extends StatelessWidget {
             fit: BoxFit.fitWidth,
           ),
           shadowColor: Color(0xFF000000),
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(35)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(35),
+          ),
           actions: <Widget>[
             Padding(
               padding: const EdgeInsets.only(right: 20),
@@ -50,7 +48,7 @@ class ResiDetail extends StatelessWidget {
                       color: Colors.white,
                       size: 35,
                     ),
-                    onPressed: () => rd.bookmarkchange(localserve),
+                    onPressed: rd.bookmarkchange,
                   )),
             ),
           ],
@@ -69,9 +67,10 @@ class ResiDetail extends StatelessWidget {
                     color: Color(0xFFFAFAFA),
                     boxShadow: [
                       BoxShadow(
-                          color: Colors.black38,
-                          spreadRadius: -2,
-                          blurRadius: 10)
+                        color: Colors.black38,
+                        spreadRadius: -2,
+                        blurRadius: 10,
+                      )
                     ],
                   ),
                   child: Padding(
@@ -83,10 +82,12 @@ class ResiDetail extends StatelessWidget {
                         Text(
                           "Nomor Resi",
                           style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         Text(
-                          rd.data.data.summary.awb,
+                          rd.summary.awb,
                           style: TextStyle(
                             fontSize: 16,
                           ),
@@ -103,9 +104,10 @@ class ResiDetail extends StatelessWidget {
                     color: Color(0xFFFAFAFA),
                     boxShadow: [
                       BoxShadow(
-                          color: Colors.black38,
-                          spreadRadius: -2,
-                          blurRadius: 10)
+                        color: Colors.black38,
+                        spreadRadius: -2,
+                        blurRadius: 10,
+                      )
                     ],
                   ),
                   child: Padding(
@@ -117,12 +119,12 @@ class ResiDetail extends StatelessWidget {
                         Text(
                           "Status",
                           style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         Text(
-                          rd.data.data.summary.status.isEmpty
-                              ? "-"
-                              : rd.data.data.summary.status,
+                          rd.summary.status.isEmpty ? "-" : rd.summary.status,
                           style: TextStyle(
                             fontSize: 16,
                           ),
@@ -133,9 +135,7 @@ class ResiDetail extends StatelessWidget {
                               fontSize: 18, fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          rd.data.data.detail.shipper.isEmpty
-                              ? "-"
-                              : rd.data.data.detail.shipper,
+                          rd.detail.shipper.isEmpty ? "-" : rd.detail.shipper,
                           style: TextStyle(
                             fontSize: 16,
                           ),
@@ -146,9 +146,7 @@ class ResiDetail extends StatelessWidget {
                               fontSize: 18, fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          rd.data.data.detail.receiver.isEmpty
-                              ? "-"
-                              : rd.data.data.detail.receiver,
+                          rd.detail.receiver.isEmpty ? "-" : rd.detail.receiver,
                           style: TextStyle(
                             fontSize: 16,
                           ),
@@ -159,9 +157,7 @@ class ResiDetail extends StatelessWidget {
                               fontSize: 18, fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          rd.data.data.detail.origin.isEmpty
-                              ? "-"
-                              : rd.data.data.detail.origin,
+                          rd.detail.origin.isEmpty ? "-" : rd.detail.origin,
                           style: TextStyle(
                             fontSize: 16,
                           ),
@@ -172,9 +168,9 @@ class ResiDetail extends StatelessWidget {
                               fontSize: 18, fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          rd.data.data.detail.destination.isEmpty
+                          rd.detail.destination.isEmpty
                               ? "-"
-                              : rd.data.data.detail.destination,
+                              : rd.detail.destination,
                           style: TextStyle(
                             fontSize: 16,
                           ),
@@ -192,55 +188,62 @@ class ResiDetail extends StatelessWidget {
                     color: Color(0xFFFAFAFA),
                     boxShadow: [
                       BoxShadow(
-                          color: Colors.black38,
-                          spreadRadius: -2,
-                          blurRadius: 10)
+                        color: Colors.black38,
+                        spreadRadius: -2,
+                        blurRadius: 10,
+                      )
                     ],
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text("Riwayat Pengiriman",
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold, height: 1.5)),
+                      const Text(
+                        "Riwayat Pengiriman",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          height: 1.5,
+                        ),
+                      ),
                       Column(
-                        children: rd.data.data.history
+                        children: rd.history
                             .map(
                               (e) => TimelineTile(
                                 alignment: TimelineAlign.start,
-                                isFirst: rd.data.data.history.indexOf(e) == 0,
-                                isLast: rd.data.data.history.indexOf(e) ==
-                                    rd.data.data.history.length - 1,
+                                isFirst: rd.history.indexOf(e) == 0,
+                                isLast: rd.history.indexOf(e) ==
+                                    rd.history.length - 1,
                                 indicatorStyle: const IndicatorStyle(
                                   width: 20,
                                   color: Colors.blue,
                                   padding: EdgeInsets.all(6),
                                 ),
                                 endChild: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                e.date,
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w300,
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        e.date,
+                                        style: const TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w300,
+                                        ),
+                                      ),
+                                      Text(
+                                        e.desc,
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 8,
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                e.desc,
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 8,
-                              ),
-                            ],
-                          ),
-                        ),
                               ),
                             )
                             .toList(),

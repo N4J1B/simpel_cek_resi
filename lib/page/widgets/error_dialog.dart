@@ -21,17 +21,18 @@ class ErrorDialog extends StatelessWidget {
         ],
       ),
       content: SingleChildScrollView(
-          child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          const Icon(Icons.error, color: Colors.red, size: 160),
-          const SizedBox(height: 32),
-          Text("Status code: ${ e.statusCode ?? '-'}"),
-          const SizedBox(height: 16),
-          Text(e.message ?? "Uknowwn Error")
-        ],
-      )),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            const Icon(Icons.error, color: Colors.red, size: 160),
+            const SizedBox(height: 32),
+            Text("Status code: ${e.statusCode ?? '-'}"),
+            const SizedBox(height: 16),
+            Text(e.message ?? "Uknowwn Error")
+          ],
+        ),
+      ),
       actions: [
         TextButton(
           child: const Text('OK'),

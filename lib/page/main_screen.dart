@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:resikuu/controller/mainc.dart';
 
 import '../utils/custom_icon_icons.dart';
+import 'widgets/my_sliver_app_bar.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
@@ -14,21 +15,26 @@ class MainScreen extends StatelessWidget {
       child: Obx(
         () => Scaffold(
           extendBody: true,
-          body: Builder(
-            builder: (context) {
-              return m.pages[m.currentIndex.value];
-            },
+          body: CustomScrollView(
+            slivers: [
+              SliverPersistentHeader(
+                delegate: MySliverAppBar(
+                  title: "ResiKuu",
+                  subText: "Ini Adalah Subtext",
+                  maxExtent: 210,
+                  minExtent: 85,
+                ),
+                floating: true,
+                pinned: true,
+              ),
+              SliverToBoxAdapter(
+                child: IndexedStack(
+                  index: m.currentIndex.value,
+                  children: m.pages,
+                ),
+              ),
+            ],
           ),
-          // body: PageView.builder(
-          //   controller: m.pagec,
-          //   onPageChanged: (value) {
-          //     m.change(value);
-          //   },
-          //   itemBuilder: (context, index) {
-          //     return m.pages[index];
-          //   },
-          //   itemCount: 4,
-          // ),
           bottomNavigationBar: Container(
             decoration: BoxDecoration(
               color: Colors.transparent,
@@ -55,7 +61,6 @@ class MainScreen extends StatelessWidget {
                 selectedItemColor: Color.fromRGBO(166, 202, 253, 1),
                 currentIndex: m.currentIndex.value,
                 onTap: m.changePage,
-                // m.pagec.jumpToPage(value);,
                 items: [
                   BottomNavigationBarItem(
                       icon: Icon(CustomIcon.home), label: "Home"),
