@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:resikuu/data/service/local_service.dart';
+import 'package:get_storage/get_storage.dart';
 
 import '../data/model/resi.dart';
 import '../data/service/api_service.dart';
@@ -10,15 +10,44 @@ import '../page/widgets/error_dialog.dart';
 
 class BookmarkC extends GetxController {
   final ApiService apiserve;
-  final LocalService localserve;
 
-  BookmarkC({required this.localserve, required this.apiserve});
+  BookmarkC({required this.apiserve});
+  final box = GetStorage();
   var bookmarkList = [].obs;
   late Resi response;
 
+  Future<void> addAndStoreBookmark(
+      String resi, String kurir, String kodekurir) async {
+    final Map storageMap = {};
+
+    storageMap["resi"] = resi;
+    storageMap["kurir"] = kurir;
+    storageMap["kodekurir"] = kodekurir;
+
+    final existingIndex = bookmarkList.indexWhere(
+        (bookmark) => bookmark["resi"] == resi && bookmark["kurir"] == kurir);
+
+    if (existingIndex != -1) {
+      bookmarkList.removeAt(existingIndex);
+    } else {
+      if (bookmarkList.length >= 10) {
+        bookmarkList.removeAt(0);
+      }
+    }
+    bookmarkList.add(storageMap);
+
+    await box.write('bookmark', bookmarkList);
+  }
+
   void remove(String resi, String kurir) async {
-    localserve.deleteBookmark(resi, kurir);
-    bookmarkList.value = localserve.restoreBookmark();
+    bookmarkList.removeWhere(
+        (bookmark) => bookmark["resi"] == resi && bookmark["kurir"] == kurir);
+
+    box.write('recent', bookmarkList);
+  }
+
+  void restoreRecents() {
+    bookmarkList.value = (box.read('recent') ?? []);
   }
 
   Future<void> onclick(String resi, String kurir) async {
@@ -60,7 +89,7 @@ class BookmarkC extends GetxController {
 
   @override
   void onInit() async {
-    bookmarkList.value = localserve.restoreBookmark();
+    restoreRecents();
     super.onInit();
   }
 }

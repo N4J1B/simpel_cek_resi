@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:resikuu/controller/bookmarkc.dart';
 import 'package:resikuu/controller/detailresic.dart';
 import 'package:resikuu/router/route_name.dart';
 import 'package:timeline_tile/timeline_tile.dart';
@@ -10,6 +11,7 @@ class ResiDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final rd = Get.find<DetailresiC>();
+    final b = Get.find<BookmarkC>();
 
     return SafeArea(
       child: Scaffold(
@@ -27,7 +29,7 @@ class ResiDetail extends StatelessWidget {
             icon: Icon(Icons.arrow_back_ios_new_rounded),
             padding: EdgeInsets.only(left: 20),
             color: Colors.white,
-            onPressed: () => Get.offAndToNamed(RouteName.main),
+            onPressed: () => Get.back(),
           ),
           flexibleSpace: Image.asset(
             "assets/background/background_secodary.png",
@@ -48,7 +50,14 @@ class ResiDetail extends StatelessWidget {
                       color: Colors.white,
                       size: 35,
                     ),
-                    onPressed: rd.bookmarkchange,
+                    onPressed: () {
+                      rd.statusBook.toggle();
+                      if (rd.statusBook.value) {
+                        b.addAndStoreBookmark(rd.summary.awb, rd.summary.courier, rd.kurirkode);
+                      } else {
+                        b.remove(rd.summary.awb, rd.summary.courier);
+                      }
+                    },
                   )),
             ),
           ],

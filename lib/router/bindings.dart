@@ -18,8 +18,7 @@ class RootBinding implements Bindings {
     Get.lazyPut<MainC>(() => MainC());
     Get.lazyPut<HomeC>(() => HomeC(apiserve: Get.find()));
     Get.lazyPut<OngkirC>(() => OngkirC(apiserve: Get.find()));
-    Get.lazyPut<BookmarkC>(
-        () => BookmarkC(localserve: Get.find(), apiserve: Get.find()));
+    Get.lazyPut<BookmarkC>(() => BookmarkC(apiserve: Get.find()));
   }
 }
 
@@ -41,14 +40,14 @@ class BookmarkBinding implements Bindings {
   @override
   void dependencies() {
     Get.lazyPut<BookmarkC>(
-        () => BookmarkC(localserve: Get.find(), apiserve: Get.find()));
+        () => BookmarkC(apiserve: Get.find()));
   }
 }
 
 class DetailResiBinding implements Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<DetailresiC>(() => DetailresiC(localserve: Get.find()));
+    Get.lazyPut<DetailresiC>(() => DetailresiC());
   }
 }
 
